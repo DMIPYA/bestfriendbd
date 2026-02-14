@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LEGEND // LEVEL 18</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23050707'/%3E%3Cpath d='M18 34h28' stroke='%2339ff14' stroke-width='6' stroke-linecap='round'/%3E%3Cpath d='M18 22h18' stroke='%2300ffb3' stroke-width='6' stroke-linecap='round' opacity='.75'/%3E%3Cpath d='M18 46h22' stroke='%23d7ffe7' stroke-width='6' stroke-linecap='round' opacity='.55'/%3E%3C/svg%3E" />
+  <style>
+    [hidden]{display:none !important}
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="bg-effects" aria-hidden="true">
+    <div class="vignette"></div>
+    <div class="scanlines"></div>
+    <div class="noise"></div>
+    <div class="grid"></div>
+    <div class="glow-orb glow-orb--a"></div>
+    <div class="glow-orb glow-orb--b"></div>
+  </div>
+
+  <div class="app" id="app">
+    <header class="topbar">
+      <div class="brand">
+        <button class="brand__title" id="easterEggTarget" type="button" aria-label="System header">
+          <span class="brand__glitch" data-text="FRIENDSHIP OS">FRIENDSHIP OS</span>
+        </button>
+      </div>
+
+      <div class="topbar__right">
+        <div class="countdown" id="countdown" aria-label="Countdown">
+          <span class="countdown__label">T-MINUS</span>
+          <span class="countdown__time" id="countdownTime">--:--:--</span>
+          <span class="countdown__mark" id="countdownMark" aria-hidden="true">18!</span>
+        </div>
+        <div class="signal">
+          <span class="signal__dot"></span>
+          <span class="signal__dot"></span>
+          <span class="signal__dot"></span>
+        </div>
+        <button class="sound" id="soundToggle" type="button">
+          <span class="sound__label" id="soundLabel">SOUND: ON</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="stage" id="stage">
+      <!-- Screen: 1 Boot -->
+      <section class="screen" id="screen-boot" data-screen="boot">
+        <div class="panel">
+          <h1 class="title">SYSTEM LOADER</h1>
+          <div class="terminal" role="log" aria-live="polite" aria-relevant="additions">
+            <pre class="terminal__out" id="bootOutput"></pre>
+            <div class="terminal__cursor" aria-hidden="true"></div>
+          </div>
+          <div class="hint">Waiting for authorization…</div>
+        </div>
+      </section>
+
+      <!-- Screen: 2 Login -->
+      <section class="screen" id="screen-login" data-screen="login" hidden>
+        <div class="panel">
+          <h1 class="title">ACCESS GATE</h1>
+
+          <form class="form" id="loginForm" autocomplete="off">
+            <label class="field">
+              <span class="field__label">LOGIN</span>
+              <input class="field__input" id="loginInput" name="login" inputmode="text" spellcheck="false" />
+            </label>
+            <label class="field">
+              <span class="field__label">PASSWORD</span>
+              <input class="field__input" id="passwordInput" name="password" type="password" />
+            </label>
+
+            <div class="form__actions">
+              <button class="btn btn--primary" type="submit">AUTHENTICATE</button>
+              <button class="btn" id="loginClear" type="button">CLEAR</button>
+            </div>
+
+            <div class="alert" id="loginAlert" role="status" aria-live="polite" hidden></div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Screen: Face ID -->
+      <section class="screen" id="screen-faceid" data-screen="faceid" hidden>
+        <div class="panel">
+          <h1 class="title">FACE ID CONFIRMATION</h1>
+          <div class="faceid">
+            <div class="faceid__frame" aria-label="Face placeholder">
+              <img class="faceid__img" id="faceIdImage" alt="Face ID" />
+              <div class="faceid__scan" aria-hidden="true"></div>
+            </div>
+
+            <div class="faceid__ring" id="faceIdRing" aria-label="Face ID result">
+              <svg class="faceid__svg" viewBox="0 0 120 120" role="img" aria-label="Face ID">
+                <circle class="faceid__circle" cx="60" cy="60" r="46" />
+                <path class="faceid__check" d="M40 62 L54 76 L82 48" />
+              </svg>
+            </div>
+
+            <div class="faceid__status" id="faceIdStatus">Waiting…</div>
+            <pre class="scan__log" id="faceIdLog"></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen: 3 Scanning -->
+      <section class="screen" id="screen-scan" data-screen="scan" hidden>
+        <div class="panel">
+          <h1 class="title">IDENTITY SCAN</h1>
+          <div class="scan">
+            <div class="scan__label" id="scanLabel">Starting scan…</div>
+            <div class="progress" aria-label="Scan progress">
+              <div class="progress__bar" id="scanBar"></div>
+            </div>
+            <pre class="scan__log" id="scanLog"></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen: 4 Menu -->
+      <section class="screen" id="screen-menu" data-screen="menu" hidden>
+        <div class="panel">
+          <h1 class="title">MAIN MENU</h1>
+          <div class="menu">
+            <button class="menu__btn" data-nav="memories">Memories</button>
+            <button class="menu__btn" data-nav="secret">Secret File</button>
+            <button class="menu__btn" data-nav="message">Message</button>
+            <button class="menu__btn" data-nav="exit">Exit</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen: Memories -->
+      <section class="screen" id="screen-memories" data-screen="memories" hidden>
+        <div class="panel">
+          <div class="subhead">
+            <h1 class="title">MEMORIES ARCHIVE</h1>
+            <button class="btn" data-nav="menu" type="button">Back</button>
+          </div>
+
+          <div class="toggle" role="tablist" aria-label="Memories type">
+            <button class="toggle__btn is-active" id="togglePhoto" type="button" role="tab" aria-selected="true">Photo</button>
+            <button class="toggle__btn" id="toggleVideo" type="button" role="tab" aria-selected="false">Video</button>
+            <span class="toggle__pill" aria-hidden="true"></span>
+          </div>
+
+          <div class="gallery">
+            <div class="gallery__frame" id="galleryFrame">
+              <img class="gallery__img" id="galleryImg" alt="Memory" />
+              <video class="gallery__video" id="galleryVideo" controls playsinline preload="metadata" hidden></video>
+              <div class="gallery__glow" aria-hidden="true"></div>
+            </div>
+
+            <div class="gallery__caption" id="galleryCaption"></div>
+
+            <div class="gallery__controls">
+              <button class="btn" id="galleryPrev" type="button">◀ Prev</button>
+              <button class="btn" id="galleryNext" type="button">Next ▶</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen: Secret File -->
+      <section class="screen" id="screen-secret" data-screen="secret" hidden>
+        <div class="panel">
+          <div class="subhead">
+            <h1 class="title">SECRET FILE</h1>
+            <button class="btn" data-nav="menu" type="button">Back</button>
+          </div>
+
+          <div class="classified">
+            <div class="classified__warning">WARNING CLASSIFIED FILE</div>
+            <button class="btn btn--primary" id="openSecret" type="button">OPEN</button>
+            <div class="classified__content" id="secretContent" hidden>
+              <div class="terminal terminal--dense">
+                <pre class="terminal__out" id="secretText"></pre>
+                <div class="terminal__cursor" aria-hidden="true"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen: Message -->
+      <section class="screen" id="screen-message" data-screen="message" hidden>
+        <div class="panel">
+          <div class="subhead">
+            <h1 class="title">MESSAGE MODULE</h1>
+            <button class="btn" data-nav="menu" type="button">Back</button>
+          </div>
+
+          <div class="message">
+            <div class="message__hero">
+              <div class="message__headline">LEVEL 18 UNLOCKED</div>
+              <div class="message__sub">NEW ABILITIES:</div>
+              <ul class="message__list">
+                <li>* legal adulthood</li>
+                <li>* infinite aura</li>
+                <li>* +100 respect</li>
+              </ul>
+            </div>
+
+            <button class="btn btn--primary" id="revealMessage" type="button">Reveal message</button>
+
+            <div class="message__content" id="messageContent" hidden>
+              <div class="terminal">
+                <pre class="terminal__out" id="messageText"></pre>
+                <div class="terminal__cursor" aria-hidden="true"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen: Exit -->
+      <section class="screen" id="screen-exit" data-screen="exit" hidden>
+        <div class="panel">
+          <h1 class="title">SYSTEM SHUTDOWN</h1>
+          <div class="terminal" role="log" aria-live="polite" aria-relevant="additions">
+            <pre class="terminal__out" id="exitOutput"></pre>
+            <div class="terminal__cursor" aria-hidden="true"></div>
+          </div>
+          <div class="hint">Returning to login…</div>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <div class="easter" id="easter">
+      <div class="easter__card">
+        <div class="easter__title">EASTER EGG FOUND</div>
+        <div class="easter__text" id="easterText"></div>
+        <button class="btn btn--primary" id="closeEaster" type="button">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
